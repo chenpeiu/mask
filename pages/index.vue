@@ -17,15 +17,17 @@ import axios from 'axios'
 export default {
   async fetch(){
     await axios.get("https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/AllData.json")
-                .then( response => this.mapapi = response)
-    // await axios.get("https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/AllData.json")
-    //             .then( response => this.cityapi = response)
-    console.log(this.mapapi)
+                .then( response => this.mapapi = response.data)
+    await axios.get("https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json")
+                .then( response => this.cityapi = response.data)
+    // console.log(this.cityapi)
   },
   data(){
     return{
       mapapi: [],
       cityapi: [],
+      city: '',
+      area: '',
     }
   }
 }
