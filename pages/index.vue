@@ -1,6 +1,6 @@
 <template>
   <div class="mask">
-    <div class="sidebar w-1/5 h-screen bg-slate-300 p-2 shadow-inner shadow-slate-100">
+    <div class="sidebar w-1/5 h-screen bg-slate-300 p-2 shadow-inner shadow-slate-100 ">
       <div class="selectors w-full flex overflow-hidden">
         <select name="city" v-model="city" class="flex-1 text-center border-solid border-2 border-slate-600 rounded-md mr-2 py-1"> 
           <option value="" disabled >請選擇城市</option>
@@ -12,28 +12,28 @@
           <!-- <option :value="a.AreaName" :key="a.AreaName" v-for=" a in cityapi.find( item => item.CityName == city).AreaList"> {{a.AreaName}}</option> -->
         </select>
       </div>
-      <div class="wrap flex flex-col">
-        <div class="item mt-2 p-2 bg-slate-500 rounded-md text-slate-200">
-          <div class="name flex-auto h-1/4 text-xl underline decoration-pink-800">榮星藥局</div>
-          <div class="txt flex-auto h-1/2">
-            <div class="phone text-xs"><fa :icon='["fas" , "phone"]' class="mr-2"/>27124696</div>
+      <div class="wrap flex flex-col overflow-y-auto">
+        <div class="item mt-2 p-2 bg-slate-500 rounded-md text-slate-200" :key="pharmacy" v-for="pharmacy in pharmacyapi">
+          <div class="name text-xl underline decoration-pink-800">{{pharmacy.properties.name}}</div>
+          <div class="txt ">
+            <div class="phone text-xs"><fa :icon='["fas" , "phone"]' class="mr-1.5 text-[10px]"/>{{pharmacy.properties.phone}}</div>
             <div class="addr text-xs flex items-center">
-              <fa :icon='["fas" , "house-medical"]'class="mr-2" />
-              <span>臺北市松山區南京東路４段１３３巷號</span>
+              <fa :icon='["fas" , "house-medical"]' class="mr-1.5 text-[10px]"/>
+              <span>{{pharmacy.properties.address}}</span>
             </div>
           </div>
           <div class="maskinform flex justify-cente mt-1">
             <div class="button mr-2">
               <span class="border-b-2 border-slate-700 text-xs py-0.5">成人口罩</span>
-              <span class="text-sm py-0.5">12</span>
+              <span class="text-sm py-0.5">{{pharmacy.properties.mask_adult}}</span>
             </div>
             <div class="button">
                <span class="border-b-2 border-slate-700 text-xs py-0.5">兒童口罩</span>
-              <span class="text-sm py-0.5">12</span>
+              <span class="text-sm py-0.5">{{pharmacy.properties.mask_child}}</span>
             </div>
           </div>
-          <div class="detailicon py-1 mt-1 text-xs text-center rounded-sm bg-slate-300 text-slate-700 cursor-zoom-in no-underline hover:underline" @click="opendetail=!opendetail" :class="{'opendetail_box': opendetail}">診所資訊</div>
-          <div class="detail text-xs p-1 text-center bg-slate-300 text-slate-700 rounded-b-sm" v-show="opendetail">星期一上午看診、星期二上午看診、星期三上午看診、星期四上午看診、星期五上午看診、星期六上午看診、星期日上午看診、星期一下午看診、星期二下午看診、星期三下午看診、星期四下午看診、星期五下午看診、星期六下午看診、星期日下午看診、星期一晚上看診、星期二晚上看診、星期三晚上看診、星期四晚上看診、星期五晚上看診、星期六晚上看診、星期日晚上休診</div>
+          <div class="detailicon py-1 mt-1 text-xs text-center rounded-sm bg-slate-300 text-slate-700 cursor-zoom-in no-underline hover:underline" @click="opendetail=!opendetail" :class="{'opendetail_box': opendetail}">營業時間</div>
+          <div class="detail text-xs p-1 text-center bg-slate-300 text-slate-700 rounded-b-sm" v-show="opendetail">{{pharmacy.properties.available}}</div>
 
         </div>
       </div>
@@ -43,6 +43,8 @@
 </template>
 <style lang="sass">
   .mask
+    .wrap
+      height: 95%
       .item
         .button
           width: 50%
@@ -61,8 +63,8 @@
 import axios from 'axios'
 export default {
   async fetch(){
-    // await axios.get("https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json")
-    //             .then( response => this.mapapi = response.data.features)
+    await axios.get("https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json")
+                .then( response => this.pharmacyapi = response.data.features)
     await axios.get("https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json")
                 .then( response => this.cityapi = response.data)
     console.log(this.cityapi)
@@ -70,7 +72,7 @@ export default {
   },
   data(){
     return{
-      mapapi: [],
+      pharmacyapi: [],
       cityapi: [],
       city: '',
       area: '',
