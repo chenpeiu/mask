@@ -9,8 +9,8 @@
         </select>
         <select name="area"  v-model="area" class="flex-1 text-center border-solid border-2 border-slate-600 rounded-md"> 
           <option value="" disabled >請選擇區域</option>
-          <!-- <option :value="a.AreaName" :key="a.AreaName" v-for=" a in areafind"> {{a.AreaName}}</option> -->
-          <option :value="a.AreaName" :key="a.AreaName" v-for=" a in cityapi.find( item => item.CityName == city).AreaList"> {{a.AreaName}}</option>
+          <option :value="a.AreaName" :key="a.AreaName" v-for=" a in areafind"> {{a.AreaName}}</option>
+          <!-- <option :value="a.AreaName" :key="a.AreaName" v-for=" a in cityapi.find( item => item.CityName == city).AreaList"> {{a.AreaName}}</option> -->
         </select>
       </div>
       <div class="wrap flex flex-col overflow-y-auto">
