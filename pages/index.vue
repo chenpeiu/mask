@@ -1,6 +1,6 @@
 <template>
   <div class="mask flex">
-    <button @click="log()">123</button>
+    <!-- <button @click="log()">123</button> -->
     <div class="sidebar w-1/5 h-screen bg-slate-300 p-2 shadow-2xl">
       <div class="selectors w-full flex overflow-hidden mb-2 ">
         <select name="city" v-model="city" class="flex-1 text-center border-solid border-2 border-slate-600 rounded-md mr-2 py-1"> 
