@@ -1,5 +1,6 @@
 <template>
   <div class="mask flex">
+    <button @click="log()">123</button>
     <div class="sidebar w-1/5 h-screen bg-slate-300 p-2 shadow-2xl">
       <div class="selectors w-full flex overflow-hidden mb-2 ">
         <select name="city" v-model="city" class="flex-1 text-center border-solid border-2 border-slate-600 rounded-md mr-2 py-1"> 
@@ -8,8 +9,8 @@
         </select>
         <select name="area"  v-model="area" class="flex-1 text-center border-solid border-2 border-slate-600 rounded-md"> 
           <option value="" disabled >請選擇區域</option>
-          <option :value="a.AreaName" :key="a.AreaName" v-for=" a in areafind"> {{a.AreaName}}</option>
-          <!-- <option :value="a.AreaName" :key="a.AreaName" v-for=" a in cityapi.find( item => item.CityName == city).AreaList"> {{a.AreaName}}</option> -->
+          <!-- <option :value="a.AreaName" :key="a.AreaName" v-for=" a in areafind"> {{a.AreaName}}</option> -->
+          <option :value="a.AreaName" :key="a.AreaName" v-for=" a in cityapi.find( item => item.CityName == city).AreaList"> {{a.AreaName}}</option>
         </select>
       </div>
       <div class="wrap flex flex-col overflow-y-auto">
@@ -110,7 +111,7 @@ export default {
       {
         return []
       }
-      return this.cityapi.find(item => item.CityName == this.city ).AreaList
+      return this.cityapi.filter(item => item.CityName == this.city )[0].AreaList
     },
     showitems(){
 
@@ -121,7 +122,6 @@ export default {
       }
 
       let result = []
-
       // 只選第一個
       if (this.area == '')
       {
@@ -132,7 +132,6 @@ export default {
         }
         return result
       }
-
       // 兩個都選了
       result = this.pharmacyapi.filter(item => item.properties.county==this.city).filter(item2=>item2.properties.town==this.area)
       if (result.length > 0)
@@ -144,10 +143,12 @@ export default {
   },
 
   methods: {
-    log() {
-      // console.log(this.city)
-      // console.log(this.area)
-    },
+    log(){
+      // console.log(( this.city))
+      console.log( this.cityapi.filter( item => item.CityName == this.city))
+      // console.log( this.pharmacyapi.find(item => item.properties.county==this.city))
+      console.log( this.cityapi.find( item => item.CityName == this.city))
+    }
   }
 }
 </script>
